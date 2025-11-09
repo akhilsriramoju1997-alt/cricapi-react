@@ -1,13 +1,9 @@
-export const API_KEY = process.env.REACT_APP_CRICAPI_KEY;
-export const API_BASE = "https://api.cricapi.com/v1";
+export const BACKEND_URL = "https://cricapi-backend-1.onrender.com";
 
 async function apiGet(path, params = {}) {
-  const url = new URL(API_BASE + path);
+  const url = new URL(BACKEND_URL + path);
 
-  // Add API KEY
-  url.searchParams.set("apikey", API_KEY);
-
-  // Add additional parameters
+  // Add params if any
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
 
   const res = await fetch(url);
@@ -15,17 +11,17 @@ async function apiGet(path, params = {}) {
 }
 
 export function getMatches() {
-  return apiGet("/currentMatches");
+  return apiGet("/matches");
 }
 
 export function getMatchInfo(id) {
-  return apiGet("/match_info", { id });
+  return apiGet(`/match/${id}`);
 }
 
 export function getPlayerInfo(id) {
-  return apiGet("/players_info", { id });
+  return apiGet(`/player/${id}`);
 }
 
 export function searchPlayers(name) {
-  return apiGet("/players", { search: name });
+  return apiGet("/searchPlayers", { name });
 }
